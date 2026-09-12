@@ -14,7 +14,9 @@ function authError(error) {
   if (code === "popup_window_error" || code === "empty_window_error")
     return new Error("Allow popups for this page, then connect Outlook again.");
   if (code === "interaction_in_progress")
-    return new Error("Finish the open Microsoft sign-in window first.");
+    return new Error(
+      "Finish the open Microsoft sign-in window first. If it was already closed, open this calendar's address in a new tab and connect again.",
+    );
   if (interactionCodes.has(code))
     return new Error(
       "Your Microsoft session needs permission or renewal. Disconnect and connect Outlook again.",
@@ -112,7 +114,9 @@ export async function initializeOutlookAuth({
       "Add your Microsoft Application (client) ID before connecting Outlook.",
     );
   const msal = await import("@azure/msal-browser");
-  const pca = await msal.createStandardPublicClientApplication({
+  const { PopupAwarePublicClientApplication, installDiscoveryDeadline } =
+    await import("./outlook-popup-client.mjs");
+  const pca = new PopupAwarePublicClientApplication({
     auth: {
       clientId,
       authority,
@@ -124,6 +128,8 @@ export async function initializeOutlookAuth({
       loggerOptions: { piiLoggingEnabled: false, loggerCallback: () => {} },
     },
   });
+  installDiscoveryDeadline(pca.getConfiguration().system.networkClient);
+  await pca.initialize();
   return createOutlookAuth({
     pca,
     scopes,

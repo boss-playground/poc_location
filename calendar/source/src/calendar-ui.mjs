@@ -71,12 +71,9 @@ export function mountCalendarApp({
   function render(state) {
     snapshot = state;
     $("#month-title").textContent = monthLabel(state.cursorDate);
-    $("#mini-title").textContent = monthLabel(state.cursorDate);
     const cells = monthCells(state.cursorDate),
-      grid = $("#month-grid"),
-      mini = $("#mini-calendar");
+      grid = $("#month-grid");
     grid.replaceChildren();
-    mini.replaceChildren();
     grid.setAttribute(
       "aria-label",
       `${monthLabel(state.cursorDate)} month calendar`,
@@ -129,15 +126,6 @@ export function mountCalendarApp({
         if (e.target === cell) openEvent(null, date);
       });
       grid.append(cell);
-      const miniButton = element(
-        "button",
-        `mini-date${outside ? " outside" : ""}${isToday ? " current" : ""}${date === selectedDay ? " selected" : ""}`,
-        String(Number(date.slice(8))),
-      );
-      miniButton.type = "button";
-      miniButton.setAttribute("aria-label", `View ${dayLabel(date)}`);
-      miniButton.addEventListener("click", () => openDay(date));
-      mini.append(miniButton);
     }
     $("#show-local").checked = state.showLocal;
     $("#show-outlook").checked = state.showOutlook;

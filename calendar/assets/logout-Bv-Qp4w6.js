@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-P2Xu9kJm.js";import{t as e}from"./redirect_bridge-BR7YUSgj.js";e().catch(()=>{document.getElementById(`message`).textContent=`You can close this window and return to your calendar.`});

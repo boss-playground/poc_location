@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-P2Xu9kJm.js";import{t as e}from"./redirect_bridge-BR7YUSgj.js";e().catch(()=>{document.getElementById(`message`).textContent=`No active sign-in response. Close this window and connect Outlook from your calendar.`});

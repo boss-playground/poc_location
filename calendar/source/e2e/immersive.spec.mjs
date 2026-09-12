@@ -1,5 +1,28 @@
 import { test, expect } from "@playwright/test";
 
+test("calendar uses the desktop viewport without a large empty footer and navigation still opens the editor", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 1536, height: 1024 });
+  await page.goto("/calendar/");
+  const main = await page.locator(".calendar-main").boundingBox();
+  const height = await page.evaluate(
+    () => document.documentElement.scrollHeight,
+  );
+  expect(height - (main.y + main.height)).toBeLessThanOrEqual(32);
+  await expect(page.getByRole("button", { name: /^View Monday,/ })).toHaveCount(
+    0,
+  );
+  const month = await page.locator("#month-title").textContent();
+  await page.getByRole("button", { name: "Next month", exact: true }).click();
+  await expect(page.locator("#month-title")).not.toHaveText(month);
+  await page.getByRole("button", { name: "New event", exact: true }).click();
+  await expect(
+    page.getByRole("dialog", { name: "New event", exact: true }),
+  ).toBeVisible();
+});
+
 test("ambient animation can be paused without blocking calendar navigation", async ({
   page,
 }) => {

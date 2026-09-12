@@ -71,6 +71,14 @@ test("all-day editor uses inclusive end date while persistence uses exclusive en
 test("Microsoft setup explains missing Client ID and mobile has no horizontal overflow", async ({
   page,
 }) => {
+  // Production now ships a public Client ID. Exercise the unconfigured state
+  // explicitly, including Vite's optional hot-reload query string.
+  await page.route(/\/src\/config\.mjs(?:\?.*)?$/, (route) =>
+    route.fulfill({
+      contentType: "application/javascript",
+      body: 'export const microsoftConfig = { clientId: "", authority: "https://login.microsoftonline.com/consumers", scopes: ["User.Read", "Calendars.ReadWrite"] };',
+    }),
+  );
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/calendar/");
   await page

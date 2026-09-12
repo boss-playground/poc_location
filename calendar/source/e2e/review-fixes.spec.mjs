@@ -28,7 +28,7 @@ for (const source of ["local", "outlook"]) {
         ({ key, id }) => sessionStorage.setItem(key, id),
         { key: clientKey, id: clientId },
       );
-      await page.route("**/src/outlook-auth.mjs", (route) =>
+      await page.route(/\/src\/outlook-auth\.mjs(?:\?.*)?$/, (route) =>
         route.fulfill({
           contentType: "application/javascript",
           body: `export async function initializeOutlookAuth(){return {restore:async()=>({homeAccountId:'test',username:'test@outlook.com'}),getAccessToken:async()=> 'synthetic-token'};}`,

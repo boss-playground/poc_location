@@ -27,7 +27,7 @@ async function mockMicrosoft(page) {
       "00000000-0000-4000-8000-000000000001",
     ),
   );
-  await page.route("**/src/outlook-auth.mjs", (route) =>
+  await page.route(/\/src\/outlook-auth\.mjs(?:\?.*)?$/, (route) =>
     route.fulfill({
       contentType: "application/javascript",
       body: `export async function initializeOutlookAuth(){let active=sessionStorage.getItem('test-connected')==='yes';const account={homeAccountId:'test-user',username:'test@outlook.com'};return {restore:async()=>active?account:null,signIn:async()=>{active=true;sessionStorage.setItem('test-connected','yes');return account;},signOut:async()=>{active=false;sessionStorage.removeItem('test-connected');},getAccessToken:async()=>{if(!active)throw Error('Not connected');return 'test-only-token';}};}`,

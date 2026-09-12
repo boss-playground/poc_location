@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#091426" />
+    <title>My calendar</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M8 10h16v15H8zM8 15h16M12 7v6M20 7v6' stroke='white' fill='none' stroke-width='2'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="ambient-scene" aria-hidden="true">
+      <img
+        class="ambient-landscape"
+        src="/assets/aurora-night.png"
+        alt=""
+        fetchpriority="high"
+      />
+    </div>
+    <div id="app" class="app">
+      <header class="app-header">
+        <div class="brand">
+          <svg
+            class="brand-icon"
+            aria-hidden="true"
+            viewBox="0 0 32 36"
+            fill="none"
+          >
+            <rect x="2" y="6" width="28" height="28" rx="3" />
+            <path d="M2 14h28M9 2v9M23 2v9" />
+          </svg>
+          <h1>My calendar</h1>
+        </div>
+        <div class="header-status">
+          <button
+            class="icon-button motion-toggle"
+            id="motion-toggle"
+            type="button"
+            aria-label="Pause ambient animation"
+            title="Pause ambient animation"
+          >
+            <svg
+              class="pause-icon"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="M9 6v12M15 6v12" />
+            </svg>
+            <svg
+              class="play-icon"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="m9 6 9 6-9 6Z" />
+            </svg>
+          </button>
+          <span class="connection-indicator" id="connection-dot"></span
+          ><span id="header-connection">Personal workspace</span
+          ><button
+            class="avatar"
+            id="setup-trigger"
+            type="button"
+            aria-label="Microsoft connection settings"
+          >
+            You
+          </button>
+        </div>
+      </header>
+      <div class="workspace">
+        <aside class="sidebar" aria-label="Calendar sources">
+          <button class="button primary new-event" id="new-event" type="button">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M12 4v16M4 12h16" /></svg
+            >New event
+          </button>
+          <div class="mini-calendar-section">
+            <div class="mini-heading">
+              <strong id="mini-title"></strong>
+            </div>
+            <div class="mini-weekdays" aria-hidden="true">
+              <span>M</span><span>T</span><span>W</span><span>T</span
+              ><span>F</span><span>S</span><span>S</span>
+            </div>
+            <div
+              class="mini-calendar"
+              id="mini-calendar"
+              aria-label="Choose a day"
+            ></div>
+          </div>
+          <section class="source-section">
+            <h2>My calendars</h2>
+            <label class="source-row"
+              ><input
+                id="show-local"
+                type="checkbox"
+                checked
+                aria-label="This calendar"
+              /><span class="source-name"
+                >This calendar<small>Only in this browser</small></span
+              ><span class="count" id="local-count">0</span></label
+            >
+            <label class="source-row outlook-source"
+              ><input
+                id="show-outlook"
+                type="checkbox"
+                checked
+                aria-label="Outlook"
+              /><span class="source-name"
+                >Outlook<small>Connected calendar</small></span
+              ><span class="count" id="outlook-count">0</span></label
+            >
+          </section>
+          <section class="connect-card" id="connect-card">
+            <h2>Bring it all together</h2>
+            <p>See your Outlook plans alongside your personal events.</p>
+            <button
+              class="button connect-button"
+              id="connect-outlook"
+              type="button"
+            >
+              Connect Outlook
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M6 18 18 6M6 6h12v12" />
+              </svg>
+            </button>
+          </section>
+          <section class="account-card" id="account-card" hidden>
+            <div class="account-title">
+              <span class="source-dot outlook"></span
+              ><strong>Outlook connected</strong>
+            </div>
+            <p id="account-name"></p>
+            <button class="button" id="disconnect-outlook" type="button">
+              Disconnect
+            </button>
+          </section>
+          <div class="sidebar-foot">Bangkok time / UTC +07:00</div>
+        </aside>
+        <main class="calendar-main">
+          <div class="calendar-toolbar">
+            <div class="month-navigation">
+              <h2 id="month-title"></h2>
+              <div class="month-arrows">
+                <button
+                  class="icon-button"
+                  id="prev-month"
+                  type="button"
+                  aria-label="Previous month"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                    <path d="m14 6-6 6 6 6" />
+                  </svg></button
+                ><button
+                  class="icon-button"
+                  id="next-month"
+                  type="button"
+                  aria-label="Next month"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                    <path d="m10 6 6 6-6 6" />
+                  </svg>
+                </button>
+              </div>
+              <button class="button today-button" id="today" type="button">
+                Today
+              </button>
+            </div>
+            <div class="view-controls">
+              <button class="button" id="refresh" type="button" disabled>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M20 7v5h-5M4 17v-5h5M5.5 7a8 8 0 0 1 13-1L20 8M4 16l1.5 2a8 8 0 0 0 13-1"
+                  />
+                </svg>
+                Sync Outlook</button
+              ><span class="view-label">Month view</span>
+            </div>
+          </div>
+          <div class="calendar-subtitle">
+            <span id="month-summary">Make room for what matters.</span>
+            <div class="legend">
+              <span><i class="source-dot local"></i>This calendar</span
+              ><span><i class="source-dot outlook"></i>Outlook</span>
+            </div>
+          </div>
+          <div class="error-banner" id="error-banner" role="alert" hidden></div>
+          <div
+            class="month-grid"
+            id="month-grid"
+            aria-label="Month calendar"
+          ></div>
+          <footer class="calendar-footer">
+            <span id="status" role="status" aria-live="polite"
+              >Ready when you are.</span
+            ><span id="sync-time">Click a day to add an event</span>
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <dialog id="event-dialog" aria-labelledby="event-dialog-title">
+      <form id="event-form">
+        <div class="dialog-heading">
+          <div>
+            <p class="dialog-eyebrow">YOUR TIME, YOUR WAY</p>
+            <h2 id="event-dialog-title">New event</h2>
+          </div>
+          <button
+            class="icon-button"
+            type="button"
+            id="close-event"
+            aria-label="Close event"
+          >
+            ×
+          </button>
+        </div>
+        <label class="field title-field"
+          >Title<input
+            id="event-title"
+            name="title"
+            type="text"
+            placeholder="What’s the plan?"
+            required
+            maxlength="255"
+            autocomplete="off"
+        /></label>
+        <fieldset class="destination-fieldset">
+          <legend>Save to</legend>
+          <div class="destinations">
+            <label class="destination"
+              ><input type="radio" name="source" value="local" checked /><span
+                ><strong>This calendar</strong
+                ><small>This browser only</small></span
+              ><i class="source-dot local"></i></label
+            ><label class="destination"
+              ><input type="radio" name="source" value="outlook" /><span
+                ><strong>Outlook</strong><small>Sync with Outlook</small></span
+              ><i class="source-dot outlook"></i
+            ></label>
+          </div>
+        </fieldset>
+        <p class="field-hint" id="destination-hint">
+          Saved only in this browser.
+        </p>
+        <label class="all-day-control"
+          ><input type="checkbox" id="event-all-day" />All day</label
+        >
+        <div class="date-fields">
+          <label class="field"
+            >Start date<input
+              type="date"
+              id="event-start-date"
+              min="1900-01-01"
+              max="2199-12-31"
+              required /></label
+          ><label class="field time-field"
+            >Start time<input
+              type="time"
+              id="event-start-time"
+              step="1"
+              required /></label
+          ><label class="field"
+            >End date<input
+              type="date"
+              id="event-end-date"
+              min="1900-01-01"
+              max="2199-12-31"
+              required /></label
+          ><label class="field time-field"
+            >End time<input type="time" id="event-end-time" step="1" required
+          /></label>
+        </div>
+        <p class="field-hint">
+          ◷ Bangkok · UTC +07:00
+          <span id="all-day-hint" hidden>· End date is included</span>
+        </p>
+        <p class="meeting-notice" id="meeting-notice" hidden></p>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
+        <div class="dialog-footer">
+          <button
+            class="button danger-quiet"
+            id="delete-event"
+            type="button"
+            hidden
+          >
+            Delete event
+          </button>
+          <div class="footer-spacer"></div>
+          <button class="button" type="button" id="cancel-event">Cancel</button
+          ><button class="button primary" id="save-event" type="submit">
+            Save event
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="delete-dialog" aria-labelledby="delete-title">
+      <div class="dialog-heading">
+        <h2 id="delete-title">Delete this event?</h2>
+      </div>
+      <p id="delete-description"></p>
+      <p class="form-error" id="delete-error" role="alert" hidden></p>
+      <div class="dialog-footer">
+        <button class="button" type="button" id="cancel-delete">
+          Keep event</button
+        ><button class="button danger" type="button" id="confirm-delete">
+          Confirm delete
+        </button>
+      </div>
+    </dialog>
+
+    <dialog id="setup-dialog" aria-labelledby="setup-title">
+      <div class="dialog-heading">
+        <div>
+          <p class="dialog-eyebrow">MICROSOFT CONNECTION</p>
+          <h2 id="setup-title">Connect your Outlook calendar</h2>
+        </div>
+        <button
+          class="icon-button"
+          id="close-setup"
+          type="button"
+          aria-label="Close setup"
+        >
+          ×
+        </button>
+      </div>
+      <p class="setup-intro">
+        Use your personal Outlook.com or Hotmail account. First, register this
+        app with Microsoft.
+      </p>
+      <ol class="setup-steps">
+        <li>
+          Open
+          <a
+            href="https://entra.microsoft.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Microsoft Entra admin center ↗</a
+          >
+          and choose <strong>App registrations → New registration</strong>.
+        </li>
+        <li>
+          Select <strong>Personal Microsoft accounts</strong> and the
+          <strong>Single-page application (SPA)</strong> platform.
+        </li>
+        <li>
+          Register both exact redirect URIs for sign-in and sign-out:
+          <code id="redirect-uri"></code>
+          <code id="logout-uri"></code>
+        </li>
+        <li>
+          Add Microsoft Graph <strong>delegated</strong> permissions
+          <strong>User.Read</strong> and <strong>Calendars.ReadWrite</strong>.
+          No client secret is needed.
+        </li>
+      </ol>
+      <form id="setup-form">
+        <label class="field"
+          >Application (client) ID<input
+            id="client-id"
+            placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+            autocomplete="off"
+            required
+            pattern="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+        /></label>
+        <p class="field-hint">
+          This public ID is remembered for this tab’s session. You can also set
+          it in the app configuration.
+        </p>
+        <p class="form-error" id="setup-error" role="alert" hidden></p>
+        <div class="dialog-footer">
+          <button class="button primary" id="apply-config" type="submit">
+            Use this application
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="day-dialog" aria-labelledby="day-dialog-title">
+      <div class="dialog-heading">
+        <h2 id="day-dialog-title"></h2>
+        <button
+          class="icon-button"
+          id="close-day"
+          type="button"
+          aria-label="Close day"
+        >
+          ×
+        </button>
+      </div>
+      <div id="day-events"></div>
+      <div class="dialog-footer">
+        <button class="button primary" id="add-day-event" type="button">
+          Add event on this day
+        </button>
+      </div>
+    </dialog>
+    <script type="module" src="/src/app.mjs"></script>
+  </body>
+</html>

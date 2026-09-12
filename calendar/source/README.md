@@ -2,11 +2,19 @@
 
 A standalone static month-calendar page at `/calendar/`. Local events persist in the same browser; Outlook events are read and written through Microsoft Graph. No backend or client secret is used.
 
-## Aurora Night interface
+## Plum & Gold interface
 
-The calendar now uses a full-screen generated aurora landscape, translucent navy panels, editorial month headings, mint actions, and distinct lilac/local and cyan/Outlook events. The header's pause button stops ambient motion; the operating system's Reduce Motion preference disables animation automatically. Existing local data, Microsoft configuration and event operations are unchanged.
+The calendar uses a generated abstract violet ribbon background, translucent plum panels, modern sans-serif headings, gold actions, and distinct lilac/local and gold/Outlook events. The compact sidebar has no duplicate mini calendar; the calendar fills the desktop workspace with a 24px bottom gutter. The header's pause button stops ambient motion; Reduce Motion disables animation automatically. Local data, Microsoft configuration and event operations are unchanged. The purple/gold direction is SCB-inspired, without a bank logo or affiliation.
 
-The production asset is `public/assets/aurora-night.png`; the built-in Image Gen concept, prompts and implementation decisions are recorded in `design/aurora-night.md`. No extra graphics runtime or third-party font request is needed.
+The production asset is `public/assets/plum-gold.png`; the built-in Image Gen concept and implementation decisions are in `design/plum-gold-concept.png` and `design/plum-gold.md`. No extra graphics runtime or third-party font request is needed.
+
+### Popup cancellation
+
+MSAL 5.21.0 does not observe a manually closed popup while waiting for its redirect bridge. `src/outlook-popup-client.mjs` observes closure and cancels only the request-specific bridge, allowing MSAL to release its own interaction lock. It does not clear account/token caches or local events. This compatibility hook must be revalidated when upgrading MSAL.
+
+Before the bridge starts, a blank popup can be waiting on authority discovery. Discovery GETs have a 10-second abort deadline per request (two sequential lookups can take about 20 seconds); early closure waits for this bounded cleanup, rather than immediately unlocking an unfinished request. Token POSTs retain MSAL's normal network implementation.
+
+If an old or unknown interaction lock survives a reload, it is intentionally not removed: another request might own it. Open the calendar URL in a fresh tab (not Duplicate tab) and reconnect. The new close/reconnect behavior is covered by real-MSAL browser tests with mocked identity endpoints; live Microsoft login/consent remains a separate manual check.
 
 ## Run
 
@@ -68,7 +76,7 @@ Client ID เป็นค่าที่เปิดเผยได้ ไม่
 | Destination | เก็บที่ไหน | ผลของการแก้ไข/ลบ |
 |---|---|---|
 | This calendar — สีม่วง | localStorage ของ browser | มีผลเฉพาะ browser นี้ |
-| Outlook — สีฟ้า | Default calendar ของบัญชี Microsoft | ส่งคำสั่งไป Outlook จริง |
+| Outlook — สีทอง | Default calendar ของบัญชี Microsoft | ส่งคำสั่งไป Outlook จริง |
 
 เลือก destination ตอนสร้าง event หลังสร้าง source จะคงเดิม การปิด checkbox แค่ซ่อนรายการ ไม่ลบข้อมูล Event ที่เพิ่มภายในจะไม่ถูก upload ทั้งหมดหลังเชื่อมบัญชี
 

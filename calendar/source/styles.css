@@ -1,4 +1,4 @@
-/* Aurora Night — one landscape, two glass surfaces, code-native controls. */
+/* Plum & Gold — violet glass, warm accents, an efficient calendar workspace. */
 :root {
   color-scheme: dark;
   font-family:
@@ -8,17 +8,17 @@
     sans-serif;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
-  color: #eef5ff;
-  background: #091426;
-  --ink: #eef5ff;
-  --muted: #b4c4d9;
-  --line: #b6cce12e;
-  --blue: #56e4f2;
-  --blue-soft: #37cbe525;
+  color: #f9eeff;
+  background: #20102f;
+  --ink: #f9eeff;
+  --muted: #cbb4d9;
+  --line: #d1b6e12e;
+  --outlook: #ecc970;
+  --outlook-soft: #e5b43725;
   --purple: #cc9afa;
   --purple-soft: #ad79ee29;
-  --mint: #7aefc7;
-  --serif: Georgia, "Times New Roman", serif;
+  --accent: #e8c46c;
+  --display: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 * {
   box-sizing: border-box;
@@ -49,14 +49,14 @@ input {
   -webkit-tap-highlight-color: transparent;
 }
 :is(button, a, input):focus-visible {
-  outline: 2px solid var(--mint);
+  outline: 2px solid var(--accent);
   outline-offset: 4px;
 }
 [hidden] {
   display: none !important;
 }
 a {
-  color: var(--mint);
+  color: var(--accent);
   text-underline-offset: 3px;
 }
 h1,
@@ -74,7 +74,7 @@ svg {
   flex-shrink: 0;
 }
 ::selection {
-  background: #7aefc755;
+  background: #efce7a55;
   color: white;
 }
 .ambient-scene {
@@ -118,14 +118,14 @@ svg {
   isolation: isolate;
 }
 .app-header {
-  height: 84px;
+  height: 76px;
   padding: 0 clamp(24px, 3.1vw, 52px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--line);
   gap: 16px;
-  background: #07122522;
+  background: #1a072522;
 }
 .brand {
   display: flex;
@@ -135,10 +135,10 @@ svg {
 .brand-icon {
   width: 34px;
   height: 38px;
-  color: #a3f7e2;
+  color: #f7dfa3;
 }
 .brand h1 {
-  font: 400 32px/1.1 var(--serif);
+  font: 400 32px/1.1 var(--display);
   letter-spacing: -0.6px;
 }
 .header-status {
@@ -146,21 +146,21 @@ svg {
   align-items: center;
   gap: 10px;
   font-size: 14px;
-  color: #c5d9e9;
+  color: #dcc5e9;
 }
 .connection-indicator {
   width: 6px;
   height: 6px;
-  background: #b7d4db;
+  background: #dbd1b7;
   border-radius: 50%;
 }
 .connection-indicator.connected {
-  background: var(--mint);
-  box-shadow: 0 0 12px #7aefc766;
+  background: var(--accent);
+  box-shadow: 0 0 12px #efce7a66;
 }
 .avatar {
-  border: 1px solid #b5d2e880;
-  background: #091a3033;
+  border: 1px solid #d5b5e880;
+  background: #22093033;
   color: var(--ink);
   font-size: 14px;
   width: 48px;
@@ -169,8 +169,8 @@ svg {
   margin-left: 14px;
 }
 .avatar:hover {
-  background: #7aefc71a;
-  border-color: var(--mint);
+  background: #efce7a1a;
+  border-color: var(--accent);
 }
 .motion-toggle {
   margin-right: 8px;
@@ -188,27 +188,28 @@ svg {
   max-width: 1800px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: clamp(236px, 18vw, 278px) minmax(0, 1fr);
+  grid-template-columns: 232px minmax(0, 1fr);
   align-items: stretch;
-  gap: 20px;
-  padding: 36px clamp(24px, 2.9vw, 52px) 134px;
-  min-height: calc(100svh - 84px);
+  gap: 16px;
+  padding: 24px 28px;
+  min-height: calc(100svh - 76px);
 }
 .sidebar,
 .calendar-main {
-  border: 1px solid #a7d3df66;
+  border: 1px solid #dfcfa766;
   border-radius: 14px;
-  background: linear-gradient(135deg, #0b1828d6, #15223a80 65%, #0817298c);
+  background: linear-gradient(135deg, #20132edb, #251734b8 65%, #21102fc7);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   box-shadow:
-    inset 0 1px 1px #e3f6ff0b,
-    0 24px 60px #02071655;
+    inset 0 1px 1px #f5e3ff0b,
+    0 24px 60px #0f021655;
 }
 .sidebar {
   padding: 26px 20px 22px;
   display: flex;
   flex-direction: column;
+  align-self: start;
   animation: arrive 0.65s ease-out both;
 }
 .button {
@@ -218,8 +219,8 @@ svg {
   align-items: center;
   gap: 9px;
   padding: 10px 14px;
-  border: 1px solid #b0c8df66;
-  background: #11263a70;
+  border: 1px solid #ceb0df66;
+  background: #2b113a70;
   border-radius: 7px;
   font-size: 13px;
   font-weight: 500;
@@ -227,24 +228,24 @@ svg {
   white-space: nowrap;
 }
 .button:hover:not(:disabled) {
-  background: #244659b0;
-  border-color: #aad5dc;
+  background: #462459b0;
+  border-color: #dcceaa;
   box-shadow: 0 5px 18px #0002;
 }
 .button:active:not(:disabled) {
   transform: translateY(1px);
 }
 .button.primary {
-  background: var(--mint);
-  border-color: var(--mint);
-  color: #062226;
+  background: linear-gradient(110deg, #c4a35c, #f0d590 52%, #bd9c59);
+  border-color: #e8c46c;
+  color: #261d06;
   font-weight: 650;
-  box-shadow: 0 6px 24px #50eac614;
+  box-shadow: 0 6px 24px #eabe5014;
 }
 .button.primary:hover:not(:disabled) {
-  background: #a6ffdf;
-  border-color: #c6fff0;
-  box-shadow: 0 4px 28px #7aefc72e;
+  background: #ffe6a6;
+  border-color: #ffefc6;
+  box-shadow: 0 4px 28px #efce7a2e;
 }
 .new-event {
   width: 100%;
@@ -256,61 +257,14 @@ svg {
   width: 23px;
   height: 23px;
 }
-.mini-calendar-section {
-  margin: 27px 0 26px;
-}
-.mini-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 22px;
-  font-size: 14px;
-}
-.mini-heading strong {
-  font-weight: 500;
-}
-.mini-weekdays,
-.mini-calendar {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 4px;
-}
-.mini-weekdays {
-  font-size: 11px;
-  color: #d0deeb;
-  text-align: center;
-  margin-bottom: 10px;
-}
-.mini-date {
-  background: transparent;
-  border: 1px solid transparent;
-  min-height: 30px;
-  padding: 0;
-  border-radius: 50%;
-  font-size: 12px;
-  color: #e3eefb;
-}
-.mini-date.outside {
-  color: #93a2b5;
-}
-.mini-date.current {
-  border-color: var(--mint);
-  background: #7aefc70d;
-  color: var(--mint);
-}
-.mini-date:hover,
-.mini-date.selected:not(.current) {
-  background: #8bdcd520;
-  color: white;
-}
 .source-section {
-  border-top: 1px solid var(--line);
-  padding-top: 20px;
+  margin-top: 24px;
+  padding-top: 0;
 }
 .source-section h2 {
   font-size: 15px;
   font-weight: 400;
-  color: #e6effa;
+  color: #f3e6fa;
   margin-bottom: 12px;
 }
 .source-row {
@@ -323,7 +277,7 @@ svg {
   cursor: pointer;
 }
 .source-row:hover {
-  background: #9fc7d90c;
+  background: #c49fd90c;
 }
 .source-row input {
   width: 20px;
@@ -332,7 +286,7 @@ svg {
   margin: 0;
 }
 .outlook-source input {
-  accent-color: var(--blue);
+  accent-color: var(--outlook);
 }
 .source-name {
   font-size: 15px;
@@ -352,11 +306,12 @@ svg {
   text-align: center;
 }
 .connect-card {
-  padding: 16px 12px 12px;
-  border: 1px solid var(--line);
-  border-radius: 11px;
+  padding: 22px 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
   margin-top: 23px;
-  background: #16283c35;
+  background: #2e163c35;
 }
 .connect-card h2 {
   font-size: 16px;
@@ -399,7 +354,7 @@ svg {
   margin: 10px 0 13px;
 }
 .sidebar-foot {
-  margin-top: auto;
+  margin-top: 24px;
   padding-top: 27px;
   color: var(--muted);
   font-size: 12px;
@@ -411,8 +366,8 @@ svg {
   display: flex;
   flex-direction: column;
   box-shadow:
-    inset 0 0 0 2px #91ecd609,
-    0 24px 60px #02071655;
+    inset 0 0 0 2px #ecd29109,
+    0 24px 60px #0f021655;
   animation: arrive 0.75s ease-out both;
 }
 .calendar-toolbar {
@@ -428,8 +383,8 @@ svg {
   gap: 12px;
 }
 .month-navigation h2 {
-  font: 400 clamp(34px, 3.35vw, 54px)/1.14 var(--serif);
-  letter-spacing: -1.7px;
+  font: 550 clamp(30px, 2.65vw, 42px)/1.14 var(--display);
+  letter-spacing: -1px;
   margin-right: 15px;
 }
 .month-arrows {
@@ -442,7 +397,7 @@ svg {
   justify-content: center;
   border: 1px solid transparent;
   background: transparent;
-  color: #d4e5f2;
+  color: #e7d4f2;
   border-radius: 7px;
   min-height: 44px;
   min-width: 42px;
@@ -451,13 +406,13 @@ svg {
   line-height: 1;
 }
 .icon-button:hover:not(:disabled) {
-  background: #a3efdd17;
-  color: var(--mint);
-  border-color: #99dbc144;
+  background: #efd9a317;
+  color: var(--accent);
+  border-color: #dbc89944;
 }
 .month-arrows .icon-button {
-  border-color: #b0c8df66;
-  background: #11263a45;
+  border-color: #ceb0df66;
+  background: #2b113a45;
 }
 .today-button {
   min-height: 44px;
@@ -474,8 +429,8 @@ svg {
   min-height: 44px;
   font-size: 13px;
   padding: 10px 16px;
-  border: 1px solid #b0c8df66;
-  background: #11263a45;
+  border: 1px solid #ceb0df66;
+  background: #2b113a45;
   border-radius: 7px;
 }
 .calendar-subtitle {
@@ -484,10 +439,10 @@ svg {
   align-items: center;
   gap: 14px;
   margin: 17px 0 24px;
-  color: #dce5f0;
+  color: #e9dcf0;
 }
 #month-summary {
-  font: 400 20px/1.5 var(--serif);
+  font: 400 15px/1.5 var(--display);
 }
 .legend {
   display: flex;
@@ -511,7 +466,7 @@ svg {
   background: var(--purple);
 }
 .source-dot.outlook {
-  background: var(--blue);
+  background: var(--outlook);
 }
 .month-grid {
   display: grid;
@@ -530,10 +485,10 @@ svg {
   align-items: center;
   justify-content: center;
   padding: 0 8px;
-  background: #06142428;
+  background: #19062428;
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  color: #d8e6f3;
+  color: #e9d8f3;
   font-size: 12px;
   font-weight: 400;
 }
@@ -544,24 +499,24 @@ svg {
   padding: 6px;
   min-width: 0;
   position: relative;
-  background: #15233d25;
+  background: #2e153d25;
   cursor: pointer;
   transition: background 0.18s;
 }
 .day-cell:hover {
-  background: #95e5d613;
+  background: #e5ce9513;
 }
 .day-cell.weekend {
-  background: #09162525;
+  background: #1b092525;
 }
 .day-cell.outside {
-  background: #09152630;
+  background: #1b092630;
 }
 .day-cell.is-today {
-  background: #7aefc709;
+  background: #efce7a09;
 }
 .day-cell:hover .date-button {
-  color: var(--mint);
+  color: var(--accent);
 }
 .day-heading {
   display: flex;
@@ -576,23 +531,23 @@ svg {
   border-radius: 50%;
   width: 34px;
   height: 34px;
-  font: 400 17px/1 var(--serif);
-  color: #ebf2fa;
+  font: 400 17px/1 var(--display);
+  color: #f4ebfa;
   padding: 0;
 }
 .outside .date-button {
-  color: #9aa6ba;
+  color: #ae9aba;
 }
 .is-today .date-button {
-  border-color: var(--mint);
-  color: #eafff7;
+  border-color: var(--accent);
+  color: #fff9ea;
   box-shadow:
-    0 0 0 1px #7aefc710,
-    0 0 15px #7aefc70a;
-  background: #70ffc50c;
+    0 0 0 1px #efce7a10,
+    0 0 15px #efce7a0a;
+  background: #ffd6700c;
 }
 .date-button:hover {
-  border-color: #7aefc766;
+  border-color: #efce7a66;
 }
 .event-chip {
   display: flex;
@@ -621,12 +576,12 @@ svg {
   margin-top: 5px;
 }
 .event-chip.outlook {
-  background: var(--blue-soft);
-  color: #bff8ff;
-  border-color: #54e4f31a;
+  background: var(--outlook-soft);
+  color: #ffedbf;
+  border-color: #f3c6541a;
 }
 .event-chip.outlook::before {
-  background: var(--blue);
+  background: var(--outlook);
 }
 .event-chip:hover {
   background: #ad79ee40;
@@ -635,8 +590,8 @@ svg {
   box-shadow: 0 4px 12px #0002;
 }
 .event-chip.outlook:hover {
-  background: #37cbe540;
-  border-color: #56e4f280;
+  background: #e5b43740;
+  border-color: #f2c65680;
 }
 .event-text {
   min-width: 0;
@@ -663,14 +618,14 @@ svg {
   border: 0;
   background: transparent;
   font-size: 11px;
-  color: #c4d3e6;
+  color: #dac4e6;
   text-align: left;
   padding: 4px;
   min-height: 30px;
   width: 100%;
 }
 .more-events:hover {
-  color: var(--mint);
+  color: var(--accent);
 }
 .calendar-footer {
   display: flex;
@@ -697,17 +652,17 @@ svg {
 /* Editors are deliberately more opaque than the calendar for contrast. */
 dialog {
   color: var(--ink);
-  border: 1px solid #a7d3df66;
+  border: 1px solid #dfcfa766;
   border-radius: 18px;
   padding: 30px;
   max-width: min(560px, calc(100vw - 28px));
   width: 100%;
   max-height: calc(100svh - 36px);
-  background: linear-gradient(140deg, #162a3ff5, #0b182bf7);
+  background: linear-gradient(140deg, #30163ff5, #1f0b2bf7);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   box-shadow:
-    inset 0 1px 0 #c4f8e815,
+    inset 0 1px 0 #f8e9c415,
     0 40px 100px #0008;
   overflow: auto;
 }
@@ -715,7 +670,7 @@ dialog[open] {
   animation: arrive 0.24s ease-out both;
 }
 dialog::backdrop {
-  background: #040c1d88;
+  background: #14041d88;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -727,11 +682,11 @@ dialog::backdrop {
   margin-bottom: 26px;
 }
 .dialog-heading h2 {
-  font: 400 32px/1.15 var(--serif);
+  font: 400 32px/1.15 var(--display);
   letter-spacing: -0.6px;
 }
 .dialog-eyebrow {
-  color: var(--mint);
+  color: var(--accent);
   font-size: 9px;
   font-weight: 500;
   letter-spacing: 0.16em;
@@ -748,18 +703,18 @@ dialog::backdrop {
   width: 100%;
   min-width: 0;
   height: 45px;
-  border: 1px solid #a5bfd547;
+  border: 1px solid #c3a5d547;
   border-radius: 7px;
   padding: 10px 12px;
   color: var(--ink);
-  background: #07152570;
+  background: #1a072570;
   font-size: 14px;
 }
 .field input::placeholder {
-  color: #90a4bb;
+  color: #ab90bb;
 }
 .field input:focus {
-  border-color: var(--mint);
+  border-color: var(--accent);
 }
 .title-field {
   margin-bottom: 24px;
@@ -791,19 +746,19 @@ dialog::backdrop {
   border-radius: 9px;
   padding: 14px 11px;
   cursor: pointer;
-  background: #08152530;
+  background: #1a082530;
 }
 .destination:has(input:checked) {
-  border-color: #7aefc7a0;
-  background: #7aefc70c;
-  box-shadow: 0 0 0 1px #7aefc715;
+  border-color: #efce7aa0;
+  background: #efce7a0c;
+  box-shadow: 0 0 0 1px #efce7a15;
 }
 .destination:has(input:disabled) {
   opacity: 0.55;
   cursor: default;
 }
 .destination input {
-  accent-color: var(--mint);
+  accent-color: var(--accent);
   margin: 0;
 }
 .destination strong {
@@ -836,7 +791,7 @@ dialog::backdrop {
   min-height: 24px;
 }
 .all-day-control input {
-  accent-color: var(--mint);
+  accent-color: var(--accent);
   width: 17px;
   height: 17px;
   margin: 0;
@@ -918,7 +873,7 @@ dialog::backdrop {
 .setup-steps code {
   display: block;
   overflow-wrap: anywhere;
-  background: #07152580;
+  background: #1a072580;
   padding: 10px;
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -960,7 +915,7 @@ dialog::backdrop {
 }
 @media (max-width: 1250px) {
   .workspace {
-    padding: 28px 24px 70px;
+    padding: 24px;
     gap: 16px;
     grid-template-columns: 230px minmax(0, 1fr);
   }
@@ -996,7 +951,7 @@ dialog::backdrop {
 @media (max-width: 960px) {
   .workspace {
     grid-template-columns: 196px minmax(0, 1fr);
-    padding: 22px 16px 50px;
+    padding: 22px 16px 24px;
     gap: 12px;
   }
   .sidebar {
@@ -1020,13 +975,6 @@ dialog::backdrop {
   .connect-card p,
   .connect-button {
     font-size: 12px;
-  }
-  .mini-date {
-    min-height: 26px;
-  }
-  .mini-calendar,
-  .mini-weekdays {
-    gap: 1px;
   }
   .month-navigation h2 {
     font-size: 32px;
@@ -1087,17 +1035,17 @@ dialog::backdrop {
   .workspace {
     display: flex;
     flex-direction: column;
-    padding: 20px 12px 45px;
+    padding: 20px 12px 24px;
     gap: 16px;
     min-height: calc(100svh - 76px);
   }
   .sidebar {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
+    align-self: stretch;
     gap: 12px;
     padding: 16px;
   }
-  .mini-calendar-section,
   .sidebar-foot {
     display: none;
   }
@@ -1115,6 +1063,7 @@ dialog::backdrop {
     height: 18px;
   }
   .source-section {
+    margin-top: 0;
     grid-column: 1/-1;
     grid-row: 2;
     display: flex;
@@ -1260,7 +1209,7 @@ dialog::backdrop {
     line-height: 1.5;
   }
   .event-chip.outlook {
-    border-left-color: var(--blue);
+    border-left-color: var(--outlook);
   }
   .event-chip::before {
     display: none;
@@ -1369,6 +1318,6 @@ dialog::backdrop {
 @supports not (backdrop-filter: blur(1px)) {
   .sidebar,
   .calendar-main {
-    background: #102037f0;
+    background: #291037f0;
   }
 }

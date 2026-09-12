@@ -106,3 +106,33 @@ test("cancelled login has a safe message and logout keeps account cleared even i
   await auth.signOut();
   assert.equal(await auth.restore(), null);
 });
+
+test("cancel and popup-blocked errors allow retry without clearing the active account", async () => {
+  for (const errorCode of ["user_cancelled", "popup_window_error"]) {
+    const { auth, pca, account } = harness();
+    await auth.signIn();
+    const login = pca.loginPopup;
+    pca.clearCache = () =>
+      assert.fail("Login failure must not clear accounts/tokens");
+    pca.loginPopup = async () => {
+      throw { errorCode };
+    };
+    await assert.rejects(auth.signIn(), /cancel|popup/i);
+    assert.equal(pca.getActiveAccount(), account);
+    pca.loginPopup = login;
+    assert.equal(await auth.signIn(), account);
+  }
+});
+
+test("an unknown interaction lock offers recovery without overriding another login", async () => {
+  const { auth, pca, account } = harness();
+  await auth.signIn();
+  pca.loginPopup = async (request) => {
+    assert.notEqual(request.overrideInteractionInProgress, true);
+    throw { errorCode: "interaction_in_progress" };
+  };
+  pca.clearCache = () =>
+    assert.fail("An unknown lock must not clear the cache");
+  await assert.rejects(auth.signIn(), /new tab/i);
+  assert.equal(pca.getActiveAccount(), account);
+});

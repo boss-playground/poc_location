@@ -1,236 +1,479 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Current Location</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#20102f" />
+    <title>My calendar</title>
+    <!-- Outlook add-in startup; the calendar also works as a regular webpage. -->
+    <script src="https://officeapis.public.onecdn.static.microsoft/1/office.js" type="text/javascript"></script>
+    <script>
+      Office.onReady(function () {});
+    </script>
     <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      crossorigin=""
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M8 10h16v15H8zM8 15h16M12 7v6M20 7v6' stroke='white' fill='none' stroke-width='2'/%3E%3C/svg%3E"
     />
-    <style>
-      :root {
-        color-scheme: light;
-        --ink: #172033;
-        --muted: #667085;
-        --line: #dfe5ef;
-        --surface: rgba(255, 255, 255, 0.94);
-        --accent: #3457d5;
-        --accent-dark: #2743ad;
-        --soft: #eef2ff;
-        --shadow: 0 24px 70px rgba(35, 53, 94, 0.16);
-      }
-
-      * { box-sizing: border-box; }
-
-      body {
-        margin: 0;
-        min-width: 320px;
-        min-height: 100vh;
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        color: var(--ink);
-        background:
-          radial-gradient(circle at 8% 10%, rgba(118, 151, 255, 0.24), transparent 30%),
-          radial-gradient(circle at 95% 90%, rgba(67, 203, 190, 0.18), transparent 32%),
-          #f5f7fb;
-        display: grid;
-        place-items: center;
-        padding: 32px 18px;
-      }
-
-      main {
-        width: min(100%, 960px);
-        background: var(--surface);
-        border: 1px solid rgba(255, 255, 255, 0.9);
-        border-radius: 28px;
-        box-shadow: var(--shadow);
-        overflow: hidden;
-        backdrop-filter: blur(16px);
-      }
-
-      .intro {
-        display: flex;
-        justify-content: space-between;
-        gap: 24px;
-        align-items: flex-end;
-        padding: 34px 38px 26px;
-      }
-
-      .eyebrow {
-        margin: 0 0 8px;
-        color: var(--accent);
-        font-size: 0.74rem;
-        font-weight: 800;
-        letter-spacing: 0.13em;
-        text-transform: uppercase;
-      }
-
-      h1 {
-        margin: 0;
-        font-size: clamp(2rem, 4vw, 3.4rem);
-        line-height: 1;
-        letter-spacing: -0.055em;
-      }
-
-      .description {
-        max-width: 490px;
-        margin: 14px 0 0;
-        color: var(--muted);
-        line-height: 1.55;
-      }
-
-      button {
-        border: 0;
-        border-radius: 14px;
-        background: var(--accent);
-        color: white;
-        padding: 14px 18px;
-        font: inherit;
-        font-weight: 750;
-        white-space: nowrap;
-        cursor: pointer;
-        box-shadow: 0 10px 22px rgba(52, 87, 213, 0.26);
-        transition: transform 160ms ease, background 160ms ease, opacity 160ms ease;
-      }
-
-      button:hover { background: var(--accent-dark); transform: translateY(-1px); }
-      button:active { transform: translateY(0); }
-      button:focus-visible { outline: 3px solid rgba(52, 87, 213, 0.3); outline-offset: 3px; }
-      button:disabled { cursor: wait; opacity: 0.64; transform: none; }
-
-      .status-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 16px;
-        padding: 14px 38px;
-        background: #fbfcff;
-        border-top: 1px solid #eef1f6;
-        border-bottom: 1px solid #eef1f6;
-      }
-
-      #status { margin: 0; color: var(--muted); font-size: 0.92rem; }
-
-      #coordinates {
-        margin: 0;
-        color: var(--accent-dark);
-        font-size: 0.84rem;
-        font-variant-numeric: tabular-nums;
-        text-align: right;
-      }
-
-      #map {
-        width: 100%;
-        min-height: 470px;
-        background: #dfe7ef;
-      }
-
-      .map-caption {
-        padding: 13px 38px 16px;
-        color: var(--muted);
-        font-size: 0.76rem;
-      }
-
-      @media (max-width: 680px) {
-        body { padding: 12px; place-items: start center; }
-        main { border-radius: 21px; margin-top: 8px; }
-        .intro { display: block; padding: 28px 22px 23px; }
-        .description { margin-top: 12px; }
-        button { width: 100%; margin-top: 22px; }
-        .status-row { display: block; padding: 14px 22px; }
-        #coordinates { margin-top: 7px; text-align: left; }
-        #map { min-height: 390px; }
-        .map-caption { padding-inline: 22px; }
-      }
-    </style>
+    <script type="module" crossorigin src="/poc_location/calendar/assets/main-DtVX6fu1.js"></script>
+    <link rel="modulepreload" crossorigin href="/poc_location/calendar/assets/modulepreload-polyfill-P2Xu9kJm.js">
+    <link rel="stylesheet" crossorigin href="/poc_location/calendar/assets/main-B9k_w-07.css">
   </head>
   <body>
-    <main>
-      <section class="intro" aria-labelledby="page-title">
-        <div>
-          <p class="eyebrow">Location POC</p>
-          <h1 id="page-title">Where am I?</h1>
-          <p class="description">Allow location access to place your current position on the map. Your location stays in this browser tab.</p>
+    <section id="outlook-poc-actions" hidden style="position:relative;z-index:2;margin:12px;padding:14px;border:1px solid #b9a2ca;border-radius:10px;background:#fff;color:#222;font:14px sans-serif" aria-label="Outlook POC">
+      <strong>Outlook POC</strong>
+      <button id="outlook-add-bcc" type="button" style="display:block;margin:10px 0;padding:8px">เพิ่ม testws@scb.co.th ใน Bcc</button>
+      <label for="outlook-subject">หัวข้ออีเมล</label>
+      <input id="outlook-subject" type="text" readonly style="display:block;width:100%;margin:6px 0;padding:8px;box-sizing:border-box">
+      <button id="outlook-get-subject" type="button" style="padding:8px">ดึงหัวข้ออีเมล</button>
+      <p id="outlook-action-status" role="status" aria-live="polite">เปิด add-in จากอีเมลใน Outlook เพื่อใช้งาน</p>
+    </section>
+    <div class="ambient-scene" aria-hidden="true">
+      <img
+        class="ambient-landscape"
+        src="/poc_location/calendar/assets/plum-gold.png"
+        alt=""
+        fetchpriority="high"
+      />
+    </div>
+    <div id="app" class="app">
+      <header class="app-header">
+        <div class="brand">
+          <svg
+            class="brand-icon"
+            aria-hidden="true"
+            viewBox="0 0 32 36"
+            fill="none"
+          >
+            <rect x="2" y="6" width="28" height="28" rx="3" />
+            <path d="M2 14h28M9 2v9M23 2v9" />
+          </svg>
+          <h1>My calendar</h1>
         </div>
-        <button id="locate-button" type="button">Get my location</button>
-      </section>
+        <div class="header-status">
+          <button
+            class="icon-button motion-toggle"
+            id="motion-toggle"
+            type="button"
+            aria-label="Pause ambient animation"
+            title="Pause ambient animation"
+          >
+            <svg
+              class="pause-icon"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="M9 6v12M15 6v12" />
+            </svg>
+            <svg
+              class="play-icon"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="m9 6 9 6-9 6Z" />
+            </svg>
+          </button>
+          <span class="connection-indicator" id="connection-dot"></span
+          ><span id="header-connection">Personal workspace</span
+          ><button
+            class="avatar"
+            id="setup-trigger"
+            type="button"
+            aria-label="Microsoft connection settings"
+          >
+            You
+          </button>
+        </div>
+      </header>
+      <div class="workspace">
+        <aside class="sidebar" aria-label="Calendar sources">
+          <button class="button primary new-event" id="new-event" type="button">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M12 4v16M4 12h16" /></svg
+            >New event
+          </button>
+          <section class="source-section">
+            <h2>My calendars</h2>
+            <label class="source-row"
+              ><input
+                id="show-local"
+                type="checkbox"
+                checked
+                aria-label="This calendar"
+              /><span class="source-name"
+                >This calendar<small>Only in this browser</small></span
+              ><span class="count" id="local-count">0</span></label
+            >
+            <label class="source-row outlook-source"
+              ><input
+                id="show-outlook"
+                type="checkbox"
+                checked
+                aria-label="Outlook"
+              /><span class="source-name"
+                >Outlook<small>Connected calendar</small></span
+              ><span class="count" id="outlook-count">0</span></label
+            >
+          </section>
+          <section class="connect-card" id="connect-card">
+            <h2>Bring it all together</h2>
+            <p>See your Outlook plans alongside your personal events.</p>
+            <button
+              class="button connect-button"
+              id="connect-outlook"
+              type="button"
+            >
+              Connect Outlook
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M6 18 18 6M6 6h12v12" />
+              </svg>
+            </button>
+          </section>
+          <section class="account-card" id="account-card" hidden>
+            <div class="account-title">
+              <span class="source-dot outlook"></span
+              ><strong>Outlook connected</strong>
+            </div>
+            <p id="account-name"></p>
+            <button class="button" id="disconnect-outlook" type="button">
+              Disconnect
+            </button>
+          </section>
+          <div class="sidebar-foot">Bangkok time / UTC +07:00</div>
+        </aside>
+        <main class="calendar-main">
+          <div class="calendar-toolbar">
+            <div class="month-navigation">
+              <h2 id="month-title"></h2>
+              <div class="month-arrows">
+                <button
+                  class="icon-button"
+                  id="prev-month"
+                  type="button"
+                  aria-label="Previous month"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                    <path d="m14 6-6 6 6 6" />
+                  </svg></button
+                ><button
+                  class="icon-button"
+                  id="next-month"
+                  type="button"
+                  aria-label="Next month"
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                    <path d="m10 6 6 6-6 6" />
+                  </svg>
+                </button>
+              </div>
+              <button class="button today-button" id="today" type="button">
+                Today
+              </button>
+            </div>
+            <div class="view-controls">
+              <button class="button" id="refresh" type="button" disabled>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M20 7v5h-5M4 17v-5h5M5.5 7a8 8 0 0 1 13-1L20 8M4 16l1.5 2a8 8 0 0 0 13-1"
+                  />
+                </svg>
+                Sync Outlook</button
+              ><span class="view-label">Month view</span>
+            </div>
+          </div>
+          <div class="calendar-subtitle">
+            <span id="month-summary">Make room for what matters.</span>
+            <div class="legend">
+              <span><i class="source-dot local"></i>This calendar</span
+              ><span><i class="source-dot outlook"></i>Outlook</span>
+            </div>
+          </div>
+          <div class="error-banner" id="error-banner" role="alert" hidden></div>
+          <div
+            class="month-grid"
+            id="month-grid"
+            aria-label="Month calendar"
+          ></div>
+          <footer class="calendar-footer">
+            <span id="status" role="status" aria-live="polite"
+              >Ready when you are.</span
+            ><span id="sync-time">Click a day to add an event</span>
+          </footer>
+        </main>
+      </div>
+    </div>
 
-      <section class="status-row" aria-live="polite">
-        <p id="status">Ready when you are.</p>
-        <p id="coordinates">No location selected</p>
-      </section>
+    <dialog id="event-dialog" aria-labelledby="event-dialog-title">
+      <form id="event-form">
+        <div class="dialog-heading">
+          <div>
+            <p class="dialog-eyebrow">YOUR TIME, YOUR WAY</p>
+            <h2 id="event-dialog-title">New event</h2>
+          </div>
+          <button
+            class="icon-button"
+            type="button"
+            id="close-event"
+            aria-label="Close event"
+          >
+            ×
+          </button>
+        </div>
+        <label class="field title-field"
+          >Title<input
+            id="event-title"
+            name="title"
+            type="text"
+            placeholder="What’s the plan?"
+            required
+            maxlength="255"
+            autocomplete="off"
+        /></label>
+        <fieldset class="destination-fieldset">
+          <legend>Save to</legend>
+          <div class="destinations">
+            <label class="destination"
+              ><input type="radio" name="source" value="local" checked /><span
+                ><strong>This calendar</strong
+                ><small>This browser only</small></span
+              ><i class="source-dot local"></i></label
+            ><label class="destination"
+              ><input type="radio" name="source" value="outlook" /><span
+                ><strong>Outlook</strong><small>Sync with Outlook</small></span
+              ><i class="source-dot outlook"></i
+            ></label>
+          </div>
+        </fieldset>
+        <p class="field-hint" id="destination-hint">
+          Saved only in this browser.
+        </p>
+        <label class="all-day-control"
+          ><input type="checkbox" id="event-all-day" />All day</label
+        >
+        <div class="date-fields">
+          <label class="field"
+            >Start date<input
+              type="date"
+              id="event-start-date"
+              min="1900-01-01"
+              max="2199-12-31"
+              required /></label
+          ><label class="field time-field"
+            >Start time<input
+              type="time"
+              id="event-start-time"
+              step="1"
+              required /></label
+          ><label class="field"
+            >End date<input
+              type="date"
+              id="event-end-date"
+              min="1900-01-01"
+              max="2199-12-31"
+              required /></label
+          ><label class="field time-field"
+            >End time<input type="time" id="event-end-time" step="1" required
+          /></label>
+        </div>
+        <p class="field-hint">
+          ◷ Bangkok · UTC +07:00
+          <span id="all-day-hint" hidden>· End date is included</span>
+        </p>
+        <p class="meeting-notice" id="meeting-notice" hidden></p>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
+        <div class="dialog-footer">
+          <button
+            class="button danger-quiet"
+            id="delete-event"
+            type="button"
+            hidden
+          >
+            Delete event
+          </button>
+          <div class="footer-spacer"></div>
+          <button class="button" type="button" id="cancel-event">Cancel</button
+          ><button class="button primary" id="save-event" type="submit">
+            Save event
+          </button>
+        </div>
+      </form>
+    </dialog>
 
-      <div id="map" role="application" aria-label="Map showing your current location"></div>
-      <div class="map-caption">Map data © OpenStreetMap contributors</div>
-    </main>
+    <dialog id="delete-dialog" aria-labelledby="delete-title">
+      <div class="dialog-heading">
+        <h2 id="delete-title">Delete this event?</h2>
+      </div>
+      <p id="delete-description"></p>
+      <p class="form-error" id="delete-error" role="alert" hidden></p>
+      <div class="dialog-footer">
+        <button class="button" type="button" id="cancel-delete">
+          Keep event</button
+        ><button class="button danger" type="button" id="confirm-delete">
+          Confirm delete
+        </button>
+      </div>
+    </dialog>
 
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin=""
-    ></script>
+    <dialog id="setup-dialog" aria-labelledby="setup-title">
+      <div class="dialog-heading">
+        <div>
+          <p class="dialog-eyebrow">MICROSOFT CONNECTION</p>
+          <h2 id="setup-title">Connect your Outlook calendar</h2>
+        </div>
+        <button
+          class="icon-button"
+          id="close-setup"
+          type="button"
+          aria-label="Close setup"
+        >
+          ×
+        </button>
+      </div>
+      <p class="setup-intro">
+        Use your personal Outlook.com or Hotmail account. First, register this
+        app with Microsoft.
+      </p>
+      <ol class="setup-steps">
+        <li>
+          Open
+          <a
+            href="https://entra.microsoft.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Microsoft Entra admin center ↗</a
+          >
+          and choose <strong>App registrations → New registration</strong>.
+        </li>
+        <li>
+          Select <strong>Personal Microsoft accounts</strong> and the
+          <strong>Single-page application (SPA)</strong> platform.
+        </li>
+        <li>
+          Register both exact redirect URIs for sign-in and sign-out:
+          <code id="redirect-uri"></code>
+          <code id="logout-uri"></code>
+        </li>
+        <li>
+          Add Microsoft Graph <strong>delegated</strong> permissions
+          <strong>User.Read</strong> and <strong>Calendars.ReadWrite</strong>.
+          No client secret is needed.
+        </li>
+      </ol>
+      <form id="setup-form">
+        <label class="field"
+          >Application (client) ID<input
+            id="client-id"
+            placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+            autocomplete="off"
+            required
+            pattern="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+        /></label>
+        <p class="field-hint">
+          This public ID is remembered for this tab’s session. You can also set
+          it in the app configuration.
+        </p>
+        <p class="form-error" id="setup-error" role="alert" hidden></p>
+        <div class="dialog-footer">
+          <button class="button primary" id="apply-config" type="submit">
+            Use this application
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="day-dialog" aria-labelledby="day-dialog-title">
+      <div class="dialog-heading">
+        <h2 id="day-dialog-title"></h2>
+        <button
+          class="icon-button"
+          id="close-day"
+          type="button"
+          aria-label="Close day"
+        >
+          ×
+        </button>
+      </div>
+      <div id="day-events"></div>
+      <div class="dialog-footer">
+        <button class="button primary" id="add-day-event" type="button">
+          Add event on this day
+        </button>
+      </div>
+    </dialog>
     <script>
-      const button = document.querySelector('#locate-button');
-      const status = document.querySelector('#status');
-      const coordinates = document.querySelector('#coordinates');
-      const map = L.map('map', { zoomControl: true }).setView([20, 0], 2);
-      let marker;
-      let accuracyCircle;
-
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
-
-      function renderLocation(position) {
-        const { latitude, longitude, accuracy } = position.coords;
-        const point = [latitude, longitude];
-
-        if (marker) map.removeLayer(marker);
-        if (accuracyCircle) map.removeLayer(accuracyCircle);
-
-        marker = L.marker(point).addTo(map).bindPopup('You are here').openPopup();
-        accuracyCircle = L.circle(point, {
-          radius: accuracy,
-          color: '#3457d5',
-          fillColor: '#6f8cff',
-          fillOpacity: 0.18,
-          weight: 2
-        }).addTo(map);
-
-        map.setView(point, Math.max(15, map.getZoom()));
-        status.textContent = 'Location found. The marker shows your current position.';
-        coordinates.textContent = `${latitude.toFixed(5)}, ${longitude.toFixed(5)} · ±${Math.round(accuracy)} m`;
-        button.disabled = false;
+// Outlook POC: operates only on the current item after the user clicks a button.
+(() => {
+  const address = 'testws@scb.co.th';
+  const status = document.getElementById('outlook-action-status');
+  const subjectField = document.getElementById('outlook-subject');
+  const bccButton = document.getElementById('outlook-add-bcc');
+  const subjectButton = document.getElementById('outlook-get-subject');
+  let ready = false;
+  const report = (message, error = false) => {
+    status.textContent = message;
+    status.style.color = error ? '#b42318' : '';
+  };
+  function item() {
+    if (!ready || !window.Office?.context?.mailbox?.item) {
+      report('เปิด add-in จากอีเมลใน Outlook ก่อนใช้งาน', true);
+      return null;
+    }
+    return Office.context.mailbox.item;
+  }
+  function failed(result) { return result.status !== Office.AsyncResultStatus.Succeeded; }
+  function onReady() {
+    if (!window.Office?.onReady) return;
+    Office.onReady(info => {
+      ready = info.host === Office.HostType.Outlook;
+      if (ready) {
+        document.getElementById('outlook-poc-actions')?.removeAttribute('hidden');
+        report('พร้อมใช้งานกับอีเมลปัจจุบัน');
       }
+    });
+  }
+  window.addEventListener('office-script-loaded', onReady);
+  if (window.Office?.onReady) onReady();
 
-      function handleLocationError(error) {
-        const messages = {
-          1: 'Location permission was denied. Please allow access and try again.',
-          2: 'Your location could not be determined. Please try again.',
-          3: 'The location request timed out. Please try again.'
-        };
-        status.textContent = messages[error.code] || 'Something went wrong while finding your location.';
-        coordinates.textContent = 'No location selected';
-        button.disabled = false;
-      }
-
-      button.addEventListener('click', () => {
-        if (!('geolocation' in navigator)) {
-          status.textContent = 'Geolocation is not supported by this browser.';
-          button.disabled = false;
-          return;
-        }
-
-        button.disabled = true;
-        status.textContent = 'Requesting your location…';
-        navigator.geolocation.getCurrentPosition(renderLocation, handleLocationError, {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        });
+  subjectButton.addEventListener('click', () => {
+    const current = item();
+    if (!current) return;
+    if (typeof current.subject === 'string') {
+      subjectField.value = current.subject;
+      report('ดึงหัวข้ออีเมลแล้ว');
+    } else if (current.subject?.getAsync) {
+      current.subject.getAsync(result => {
+        if (failed(result)) return report(`ดึงหัวข้อไม่สำเร็จ: ${result.error?.message || 'เกิดข้อผิดพลาด'}`, true);
+        subjectField.value = result.value || '';
+        report('ดึงหัวข้ออีเมลแล้ว');
       });
+    } else report('ไม่สามารถอ่านหัวข้อจากอีเมลนี้ได้', true);
+  });
+
+  bccButton.addEventListener('click', () => {
+    const current = item();
+    if (!current) return;
+    if (!current.bcc?.getAsync || !current.bcc?.addAsync) {
+      report('ปุ่ม Bcc ใช้ได้ขณะเขียนหรือตอบอีเมลเท่านั้น', true);
+      return;
+    }
+    bccButton.disabled = true;
+    current.bcc.getAsync(result => {
+      if (failed(result)) {
+        bccButton.disabled = false;
+        return report(`อ่าน Bcc ไม่สำเร็จ: ${result.error?.message || 'เกิดข้อผิดพลาด'}`, true);
+      }
+      if ((result.value || []).some(recipient => recipient.emailAddress?.toLowerCase() === address)) {
+        bccButton.disabled = false;
+        return report(`${address} อยู่ใน Bcc แล้ว`);
+      }
+      current.bcc.addAsync([address], added => {
+        bccButton.disabled = false;
+        if (failed(added)) return report(`เพิ่ม Bcc ไม่สำเร็จ: ${added.error?.message || 'เกิดข้อผิดพลาด'}`, true);
+        report(`เพิ่ม ${address} ใน Bcc แล้ว`);
+      });
+    });
+  });
+})();
     </script>
   </body>
 </html>

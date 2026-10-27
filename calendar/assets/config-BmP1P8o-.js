@@ -1,0 +1,1 @@
+var e={clientId:`942aaf74-fa78-45d7-a764-a1a693ca4070`,authority:`https://login.microsoftonline.com/consumers`,scopes:[`User.Read`,`Calendars.ReadWrite`]};export{e as t};

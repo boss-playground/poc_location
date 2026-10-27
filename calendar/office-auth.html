@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Connect Outlook</title>
+    <script>
+      window.officeHistory = {
+        replaceState: history.replaceState,
+        pushState: history.pushState,
+      };
+    </script>
+    <script
+      src="https://officeapis.public.onecdn.static.microsoft/1/office.js"
+      type="text/javascript"
+    ></script>
+    <script>
+      history.replaceState = window.officeHistory.replaceState;
+      history.pushState = window.officeHistory.pushState;
+    </script>
+    <script type="module" crossorigin src="/poc_location/calendar/assets/modulepreload-polyfill-P2Xu9kJm.js"></script>
+    <script type="module" crossorigin src="/poc_location/calendar/assets/Configuration-D1tzJugl.js"></script>
+    <script type="module" crossorigin src="/poc_location/calendar/assets/config-BmP1P8o-.js"></script>
+    <script type="module" crossorigin src="/poc_location/calendar/assets/preload-helper-8lPLOIBr.js"></script>
+    <script type="module" crossorigin src="/poc_location/calendar/assets/dist-gUe6Miv9.js"></script>
+    <script type="module" crossorigin src="/poc_location/calendar/assets/office-dialog-page-N2LrYPzh.js"></script>
+  </head>
+  <body>
+    <p id="message">Opening Microsoft sign-in…</p>
+  </body>
+</html>
